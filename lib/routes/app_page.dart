@@ -10,4 +10,5 @@ abstract class Routes {
   static const String homepage = '/homepage';
   static const String riwayat = '/riwayat';
   static const String bantuan = '/bantuan';
+  static const String formpengaduan = '/formpengaduan';
 }
