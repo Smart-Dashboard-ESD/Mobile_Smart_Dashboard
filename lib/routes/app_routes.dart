@@ -1,4 +1,3 @@
-import 'package:mobile_smart_dashboard/main.dart';
 import 'package:mobile_smart_dashboard/pages/alamat/alamat_page.dart';
 import 'package:mobile_smart_dashboard/pages/data_diri/data_diri_page.dart';
 import 'package:mobile_smart_dashboard/pages/nomor_penduduk/nomor_penduduk_page.dart';
