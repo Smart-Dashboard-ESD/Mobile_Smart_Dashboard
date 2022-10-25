@@ -5,4 +5,5 @@ abstract class Routes {
   static const String usernameandpassword = '/usernameandpassword';
   static const String successregister = '/successregister';
   static const String errorregister = '/errorregister';
+  static const String registerdevice = '/registerdevice';
 }

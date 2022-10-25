@@ -5,6 +5,7 @@ import 'package:mobile_smart_dashboard/pages/nomor_penduduk/nomor_penduduk_page.
 import 'package:mobile_smart_dashboard/pages/username_and_password/username_and_password_page.dart';
 import 'package:mobile_smart_dashboard/pages/success_register/success_register_page.dart';
 import 'package:mobile_smart_dashboard/pages/error_register/error_register_page.dart';
+import 'package:mobile_smart_dashboard/pages/register_device/register_device_page.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
@@ -21,5 +22,7 @@ class AppPages {
     GetPage(
         name: Routes.successregister, page: () => const SuccessRegisterPage()),
     GetPage(name: Routes.errorregister, page: () => const ErrorRegisterPage()),
+    GetPage(
+        name: Routes.registerdevice, page: () => const RegisterDevicePage()),
   ];
 }
