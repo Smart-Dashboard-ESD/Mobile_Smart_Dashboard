@@ -11,6 +11,7 @@ import 'package:mobile_smart_dashboard/pages/home_page/home_page.dart';
 import 'package:mobile_smart_dashboard/pages/riwayat/riwayat_page.dart';
 import 'package:mobile_smart_dashboard/pages/bantuan/bantuan_page.dart';
 import 'package:mobile_smart_dashboard/pages/form_pengaduan/form_pengaduan_page.dart';
+import 'package:mobile_smart_dashboard/pages/pembayaran/pembayaran_page.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
@@ -34,5 +35,6 @@ class AppPages {
     GetPage(name: Routes.riwayat, page: () => const RiwayatPage()),
     GetPage(name: Routes.bantuan, page: () => const BantuanPage()),
     GetPage(name: Routes.formpengaduan, page: () => const FormPengaduanPage()),
+    GetPage(name: Routes.pembayaran, page: () => const PembayaranPage()),
   ];
 }
