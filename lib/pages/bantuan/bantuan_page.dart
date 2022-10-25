@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:mobile_smart_dashboard/widgets/pending_ticket.dart';
+import 'package:get/get.dart';
 
 class BantuanPage extends StatelessWidget {
   const BantuanPage({super.key});
@@ -231,7 +233,9 @@ class BantuanPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.formpengaduan);
+                  },
                   child: Container(
                     height: 32,
                     width: 96,

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 class AlamatPage extends StatefulWidget {
   const AlamatPage({super.key});
@@ -493,7 +495,9 @@ class _AlamatPageState extends State<AlamatPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.back();
+              },
               child: Text(
                 'Previous',
                 style: AppText.textSmall.copyWith(
@@ -501,7 +505,9 @@ class _AlamatPageState extends State<AlamatPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.usernameandpassword);
+              },
               child: Container(
                 height: 36,
                 width: 113,

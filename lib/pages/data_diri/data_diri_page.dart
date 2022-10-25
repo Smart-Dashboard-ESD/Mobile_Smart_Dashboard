@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
 
@@ -294,7 +295,9 @@ class _DataDiriPageState extends State<DataDiriPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.alamat);
+              },
               child: Container(
                 height: 36,
                 width: 113,
