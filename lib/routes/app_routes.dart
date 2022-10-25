@@ -3,6 +3,7 @@ import 'package:mobile_smart_dashboard/pages/alamat/alamat_page.dart';
 import 'package:mobile_smart_dashboard/pages/data_diri/data_diri_page.dart';
 import 'package:mobile_smart_dashboard/pages/nomor_penduduk/nomor_penduduk_page.dart';
 import 'package:mobile_smart_dashboard/pages/username_and_password/username_and_password_page.dart';
+import 'package:mobile_smart_dashboard/pages/success_register/success_register_page.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
@@ -16,5 +17,7 @@ class AppPages {
     GetPage(
         name: Routes.usernameandpassword,
         page: () => const UsernameAndPasswordPage()),
+    GetPage(
+        name: Routes.successregister, page: () => const SuccessRegisterPage()),
   ];
 }
