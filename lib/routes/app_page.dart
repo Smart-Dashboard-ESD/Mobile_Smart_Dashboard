@@ -1,3 +1,3 @@
 abstract class Routes {
-  static const String main = '/';
+  static const String pembayaran = '/pembayaran';
 }
