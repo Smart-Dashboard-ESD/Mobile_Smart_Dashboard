@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:get/get.dart';
 
 class FormPengaduanPage extends StatelessWidget {
   const FormPengaduanPage({super.key});
@@ -12,7 +13,9 @@ class FormPengaduanPage extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         leading: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.back();
+          },
           child: const Icon(
             Icons.arrow_back_ios_new_rounded,
             color: AppColorText.primary,

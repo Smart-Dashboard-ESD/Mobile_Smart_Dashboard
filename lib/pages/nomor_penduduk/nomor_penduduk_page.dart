@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:get/get.dart';
 
 class NomorPendudukPage extends StatelessWidget {
   const NomorPendudukPage({super.key});
@@ -93,7 +95,9 @@ class NomorPendudukPage extends StatelessWidget {
 
     Widget buttonNext() {
       return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.toNamed(Routes.datadiri);
+        },
         child: Align(
           alignment: Alignment.bottomRight,
           child: Container(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:get/get.dart';
 
 class SuccessRegisterPage extends StatelessWidget {
   const SuccessRegisterPage({super.key});
@@ -42,7 +44,9 @@ class SuccessRegisterPage extends StatelessWidget {
 
     Widget buttonGoHome() {
       return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.offAllNamed(Routes.main);
+        },
         child: Container(
           margin: EdgeInsets.only(
               left: defaultMargin, right: defaultMargin, top: 30),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:get/get.dart';
 
 class UsernameAndPasswordPage extends StatefulWidget {
   const UsernameAndPasswordPage({super.key});
@@ -279,7 +281,9 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.back();
+              },
               child: Text(
                 'Previous',
                 style: AppText.textSmall.copyWith(
@@ -287,7 +291,9 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.successregister);
+              },
               child: Container(
                 height: 36,
                 width: 113,
