@@ -9,6 +9,7 @@ import 'package:mobile_smart_dashboard/pages/register_device/register_device_pag
 import 'package:mobile_smart_dashboard/pages/sign_in/sign_in_page.dart';
 import 'package:mobile_smart_dashboard/pages/home_page/home_page.dart';
 import 'package:mobile_smart_dashboard/pages/riwayat/riwayat_page.dart';
+import 'package:mobile_smart_dashboard/pages/bantuan/bantuan_page.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
@@ -30,5 +31,6 @@ class AppPages {
     GetPage(name: Routes.signin, page: () => const SignInPage()),
     GetPage(name: Routes.homepage, page: () => const HomePage()),
     GetPage(name: Routes.riwayat, page: () => const RiwayatPage()),
+    GetPage(name: Routes.bantuan, page: () => const BantuanPage()),
   ];
 }
