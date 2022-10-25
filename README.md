@@ -1,6 +1,6 @@
 # Smart Dashboard Mobile
 
-Smart Dashboard is a web application that allows you to check water consumption and other data from IoT device that installed in water meter. It is built with [Go](https://go.dev/) and Using [Fiber](https://gofiber.io/) Framework for Backend Services. The Frontend is built with [React](https://reactjs.org/) and The Mobile App is built with [Flutter](https://flutter.dev/).
+Smart Dashboard is a web application that allows you to check water consumption and other data from IoT device that installed in water meter. It is built with [Javascript](https://www.javascript.com/) for Backend Services. The Frontend is built with [React](https://reactjs.org/) and The Mobile App is built with [Flutter](https://flutter.dev/).
 
 ## Architecture
 
