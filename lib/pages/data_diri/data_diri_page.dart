@@ -1,8 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
+import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DataDiriPage extends StatefulWidget {
   const DataDiriPage({super.key});
@@ -12,14 +14,70 @@ class DataDiriPage extends StatefulWidget {
 }
 
 class _DataDiriPageState extends State<DataDiriPage> {
-  final List<String> items = [
-    'Laki - laki',
-    'Perempuan',
-  ];
+  TextEditingController nameController = TextEditingController();
+  TextEditingController birthplaceController = TextEditingController();
+  TextEditingController birthdateController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
 
-  String? selectedValue;
+  late SharedPreferences sharedPreferences;
 
-  DateTime date = DateTime(2005, 01, 01);
+  DateTime selected = DateTime.now();
+  DateTime initial = DateTime(1900);
+  DateTime last = DateTime(2100);
+
+  Future displayDatePicker(BuildContext context) async {
+    var date = await showDatePicker(
+      context: context,
+      initialDate: selected,
+      firstDate: initial,
+      lastDate: last,
+    );
+
+    if (date != null) {
+      setState(() {
+        birthdateController.text = date.day.toString() +
+            "-" +
+            date.month.toString() +
+            "-" +
+            date.year.toString();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialGetSavedData();
+  }
+
+  void initialGetSavedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    final String namePref =
+        sharedPreferences.getString(SharedPreferenceKey.name) ?? "";
+    nameController.value = TextEditingValue(text: namePref);
+
+    final String birthplacePref =
+        sharedPreferences.getString(SharedPreferenceKey.birthplace) ?? "";
+    birthplaceController.value = TextEditingValue(text: birthplacePref);
+
+    final String birthdatePref =
+        sharedPreferences.getString(SharedPreferenceKey.birthdate) ?? "";
+    birthdateController.value = TextEditingValue(text: birthdatePref);
+
+    final String genderPref =
+        sharedPreferences.getString(SharedPreferenceKey.gender) ?? "";
+    genderController.value = TextEditingValue(text: genderPref);
+  }
+
+  void storedata() {
+    sharedPreferences.setString(SharedPreferenceKey.name, nameController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.birthplace, birthplaceController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.birthdate, birthdateController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.gender, genderController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +149,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: nameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -128,7 +187,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                 Expanded(
                   child: Container(
                     height: 46,
-                    width: MediaQuery.of(context).size.width,
+                    width: 163,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
@@ -138,6 +197,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                         )),
                     child: Center(
                       child: TextFormField(
+                        controller: birthplaceController,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
                         style: AppText.textBase
@@ -152,44 +212,43 @@ class _DataDiriPageState extends State<DataDiriPage> {
                   ),
                 ),
                 const SizedBox(
-                  width: 15,
+                  width: 16,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    DateTime? newDate = await showDatePicker(
-                        context: context,
-                        initialDate: date,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100));
-
-                    if (newDate == null) return;
-                    setState(() => date = newDate);
-                  },
-                  child: Container(
-                    height: 46,
-                    width: 130,
-                    padding: const EdgeInsets.only(left: 16, right: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: AppColorPrimay.white,
-                        border: Border.all(
-                          color: AppColorText.secondary,
-                        )),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${date.year}/${date.month}/${date.day}',
-                          style: AppText.textBase.copyWith(
-                              fontSize: 12,
-                              fontWeight: AppText.medium,
-                              color: AppColorText.primary),
-                        ),
-                        const Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: Colors.grey,
-                        ),
-                      ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => displayDatePicker(context),
+                    child: Container(
+                      height: 46,
+                      width: 163,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: AppColorPrimay.white,
+                          border: Border.all(
+                            color: AppColorText.secondary,
+                          )),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: birthdateController,
+                              cursorColor: AppColorText.primary,
+                              autocorrect: false,
+                              style: AppText.textBase
+                                  .copyWith(fontWeight: AppText.medium),
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Tanggal Lahir',
+                                hintStyle: AppText.textBase.copyWith(
+                                    fontSize: 12, fontWeight: AppText.medium),
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: AppColorText.secondary,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -215,63 +274,29 @@ class _DataDiriPageState extends State<DataDiriPage> {
             const SizedBox(
               height: 8,
             ),
-            DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                isExpanded: true,
-                hint: Text(
-                  'Jenis Kelamin',
-                  style: AppText.textSmall.copyWith(
-                      fontWeight: AppText.medium,
-                      color: AppColorText.secondary),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                items: items
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: AppText.textSmall.copyWith(
-                                fontWeight: AppText.medium,
-                                color: AppColorText.primary),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ))
-                    .toList(),
-                value: selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    selectedValue = value as String;
-                  });
-                },
-                icon: const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                ),
-                iconSize: 25,
-                iconEnabledColor: AppColorText.secondary,
-                iconDisabledColor: Colors.grey,
-                buttonHeight: 46,
-                buttonWidth: double.infinity,
-                buttonPadding: const EdgeInsets.only(left: 12, right: 8),
-                buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+            Container(
+              height: 46,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: AppColorPrimay.white,
                   border: Border.all(
                     color: AppColorText.secondary,
+                  )),
+              child: Center(
+                child: TextFormField(
+                  controller: genderController,
+                  cursorColor: AppColorText.primary,
+                  autocorrect: false,
+                  style: AppText.textBase.copyWith(fontWeight: AppText.medium),
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Ketik Pria/Wanita',
+                    hintStyle: AppText.textBase
+                        .copyWith(fontSize: 12, fontWeight: AppText.medium),
                   ),
-                  color: AppColorPrimay.white,
                 ),
-                itemHeight: 40,
-                dropdownMaxHeight: 100,
-                dropdownWidth:
-                    MediaQuery.of(context).size.width - 2 * defaultMargin,
-                dropdownPadding: null,
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: AppColorPrimay.white,
-                ),
-                scrollbarThickness: 6,
-                scrollbarAlwaysShow: true,
               ),
-            ),
+            )
           ],
         ),
       );
@@ -297,6 +322,11 @@ class _DataDiriPageState extends State<DataDiriPage> {
             GestureDetector(
               onTap: () {
                 Get.toNamed(Routes.alamat);
+                storedata();
+                print(nameController.text);
+                print(birthplaceController.text);
+                print(birthdateController.text);
+                print(genderController.text);
               },
               child: Container(
                 height: 36,
