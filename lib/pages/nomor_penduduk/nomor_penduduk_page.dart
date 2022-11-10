@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
+import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class NomorPendudukPage extends StatelessWidget {
+class NomorPendudukPage extends StatefulWidget {
   const NomorPendudukPage({super.key});
+
+  @override
+  State<NomorPendudukPage> createState() => _NomorPendudukPageState();
+}
+
+class _NomorPendudukPageState extends State<NomorPendudukPage> {
+  TextEditingController nikController = TextEditingController();
+  late SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    initialGetSavedData();
+  }
+
+  void initialGetSavedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    final String nikPref =
+        sharedPreferences.getString(SharedPreferenceKey.nik) ?? "";
+    nikController.value = TextEditingValue(text: nikPref);
+  }
+
+  void storedata() {
+    sharedPreferences.setString(SharedPreferenceKey.nik, nikController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +103,7 @@ class NomorPendudukPage extends StatelessWidget {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: nikController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   keyboardType: TextInputType.number,
@@ -97,6 +125,8 @@ class NomorPendudukPage extends StatelessWidget {
       return GestureDetector(
         onTap: () {
           Get.toNamed(Routes.datadiri);
+          print(nikController.text);
+          storedata();
         },
         child: Align(
           alignment: Alignment.bottomRight,

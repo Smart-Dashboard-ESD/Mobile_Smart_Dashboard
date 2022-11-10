@@ -1,11 +1,9 @@
-import 'dart:convert';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
+import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AlamatPage extends StatefulWidget {
   const AlamatPage({super.key});
@@ -15,94 +13,59 @@ class AlamatPage extends StatefulWidget {
 }
 
 class _AlamatPageState extends State<AlamatPage> {
-  List<dynamic> _dataProv = [];
-  List<dynamic> _dataDist = [];
-  List<dynamic> _dataSubDist = [];
-  String? _getProv;
-  String? _nameProv;
-  String? _getDist;
-  String? _nameDist;
-  String? _getSubDist;
-  String? _nameSubDist;
-  bool disableSubDist = false;
+  TextEditingController provinsiController = TextEditingController();
+  TextEditingController kotaController = TextEditingController();
+  TextEditingController kecamatanController = TextEditingController();
+  TextEditingController rtController = TextEditingController();
+  TextEditingController rwController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
-  void getProv() async {
-    final respose = await http.get(
-        Uri.parse("https://dev.farizdotid.com/api/daerahindonesia/provinsi"),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body)["provinsi"];
-    setState(() {
-      _dataProv = listData;
-    });
-  }
-
-  void getDetailProv() async {
-    final respose = await http.get(
-        Uri.parse("https://dev.farizdotid.com/api/daerahindonesia/provinsi/" +
-            _getProv! +
-            ""),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body);
-    setState(() {
-      _nameProv = listData['nama'];
-    });
-  }
-
-  void getDistrict() async {
-    final respose = await http.get(
-        Uri.parse(
-            "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=" +
-                _getProv! +
-                ""),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body)["kota_kabupaten"];
-    setState(() {
-      _dataDist = listData;
-    });
-    print("data : $listData");
-  }
-
-  void getDetailDistrict() async {
-    final respose = await http.get(
-        Uri.parse("https://dev.farizdotid.com/api/daerahindonesia/kota/" +
-            _getDist! +
-            ""),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body);
-    setState(() {
-      _nameDist = listData['nama'];
-    });
-  }
-
-  void getSubDistrict() async {
-    final respose = await http.get(
-        Uri.parse(
-            "http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=" +
-                _getDist!),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body)["kecamatan"];
-    setState(() {
-      _dataSubDist = listData;
-    });
-    print("data : $listData");
-  }
-
-  void getDetailSubDistrict() async {
-    final respose = await http.get(
-        Uri.parse("https://dev.farizdotid.com/api/daerahindonesia/kecamatan/" +
-            _getSubDist! +
-            ""),
-        headers: {"Accept": "application/json"});
-    var listData = jsonDecode(respose.body);
-    setState(() {
-      _nameSubDist = listData['nama'];
-    });
-  }
+  late SharedPreferences sharedPreferences;
 
   @override
   void initState() {
-    getProv();
     super.initState();
+    initialGetSavedData();
+  }
+
+  void initialGetSavedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    final String provPref =
+        sharedPreferences.getString(SharedPreferenceKey.province) ?? "";
+    rtController.value = TextEditingValue(text: provPref);
+
+    final String kotaPref =
+        sharedPreferences.getString(SharedPreferenceKey.city) ?? "";
+    rtController.value = TextEditingValue(text: kotaPref);
+
+    final String kecPref =
+        sharedPreferences.getString(SharedPreferenceKey.keluarahan) ?? "";
+    rtController.value = TextEditingValue(text: kecPref);
+
+    final String rtPref =
+        sharedPreferences.getString(SharedPreferenceKey.rt) ?? "";
+    rtController.value = TextEditingValue(text: rtPref);
+
+    final String rwPref =
+        sharedPreferences.getString(SharedPreferenceKey.rw) ?? "";
+    rwController.value = TextEditingValue(text: rwPref);
+
+    final String addressPref =
+        sharedPreferences.getString(SharedPreferenceKey.address) ?? "";
+    addressController.value = TextEditingValue(text: addressPref);
+  }
+
+  void storedata() {
+    sharedPreferences.setString(
+        SharedPreferenceKey.province, provinsiController.text);
+    sharedPreferences.setString(SharedPreferenceKey.city, kotaController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.keluarahan, kecamatanController.text);
+    sharedPreferences.setString(SharedPreferenceKey.rt, rtController.text);
+    sharedPreferences.setString(SharedPreferenceKey.rw, rwController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.address, addressController.text);
   }
 
   @override
@@ -167,128 +130,61 @@ class _AlamatPageState extends State<AlamatPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                    isExpanded: true,
-                    hint: Text(
-                      'Provinsi',
-                      style: AppText.textSmall.copyWith(
-                          fontWeight: AppText.medium,
-                          color: AppColorText.secondary),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    items: _dataProv
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item['id'].toString(),
-                              child: Text(
-                                item['nama'],
-                                style: AppText.textSmall.copyWith(
-                                    fontWeight: AppText.medium,
-                                    color: AppColorText.primary),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
-                        .toList(),
-                    value: _getProv,
-                    onChanged: (value) {
-                      setState(() {
-                        disableSubDist = true;
-                        _nameDist = null;
-                        _nameSubDist = null;
-                        _getDist = null;
-                        _getSubDist = null;
-                        _getProv = value;
-                        getDetailProv();
-                        getDistrict();
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                    ),
-                    iconSize: 25,
-                    iconEnabledColor: AppColorText.secondary,
-                    iconDisabledColor: Colors.grey,
-                    buttonHeight: 46,
-                    buttonWidth: 163,
-                    buttonPadding: const EdgeInsets.only(left: 12, right: 8),
-                    buttonDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: AppColorText.secondary,
+                Expanded(
+                  child: Container(
+                    height: 46,
+                    width: 163,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColorPrimay.white,
+                        border: Border.all(
+                          color: AppColorText.secondary,
+                        )),
+                    child: Center(
+                      child: TextFormField(
+                        controller: provinsiController,
+                        cursorColor: AppColorText.primary,
+                        autocorrect: false,
+                        style: AppText.textBase
+                            .copyWith(fontWeight: AppText.medium),
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Provinsi',
+                          hintStyle: AppText.textBase.copyWith(
+                              fontSize: 12, fontWeight: AppText.medium),
+                        ),
                       ),
-                      color: AppColorPrimay.white,
                     ),
-                    itemHeight: 40,
-                    dropdownMaxHeight: 200,
-                    dropdownWidth: 163,
-                    dropdownPadding: null,
-                    dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColorPrimay.white,
-                    ),
-                    scrollbarThickness: 6,
-                    scrollbarAlwaysShow: true,
                   ),
                 ),
-                DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                    isExpanded: true,
-                    hint: Text(
-                      'Kota',
-                      style: AppText.textSmall.copyWith(
-                          fontWeight: AppText.medium,
-                          color: AppColorText.secondary),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    items: _dataDist
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item['id'].toString(),
-                              child: Text(
-                                item['nama'],
-                                style: AppText.textSmall.copyWith(
-                                    fontWeight: AppText.medium,
-                                    color: AppColorText.primary),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
-                        .toList(),
-                    value: _getDist,
-                    onChanged: (value) {
-                      setState(() {
-                        disableSubDist = false;
-                        _nameSubDist = null;
-                        _getSubDist = null;
-                        _getDist = value;
-                        getDetailDistrict();
-                        getSubDistrict();
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                    ),
-                    iconSize: 25,
-                    iconEnabledColor: AppColorText.secondary,
-                    iconDisabledColor: Colors.grey,
-                    buttonHeight: 46,
-                    buttonWidth: 163,
-                    buttonPadding: const EdgeInsets.only(left: 12, right: 8),
-                    buttonDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: AppColorText.secondary,
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 46,
+                    width: 163,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColorPrimay.white,
+                        border: Border.all(
+                          color: AppColorText.secondary,
+                        )),
+                    child: Center(
+                      child: TextFormField(
+                        controller: kotaController,
+                        cursorColor: AppColorText.primary,
+                        autocorrect: false,
+                        style: AppText.textBase
+                            .copyWith(fontWeight: AppText.medium),
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Kota/Kabupaten',
+                          hintStyle: AppText.textBase.copyWith(
+                              fontSize: 12, fontWeight: AppText.medium),
+                        ),
                       ),
-                      color: AppColorPrimay.white,
                     ),
-                    itemHeight: 40,
-                    dropdownMaxHeight: 200,
-                    dropdownWidth: 163,
-                    dropdownPadding: null,
-                    dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColorPrimay.white,
-                    ),
-                    scrollbarThickness: 6,
-                    scrollbarAlwaysShow: true,
                   ),
                 ),
               ],
@@ -298,147 +194,110 @@ class _AlamatPageState extends State<AlamatPage> {
       );
     }
 
-    Widget inputKelurahanDesa(enableSubDist) {
-      return IgnorePointer(
-        ignoring: enableSubDist,
-        child: Container(
-          margin: EdgeInsets.only(
-              left: defaultMargin, right: defaultMargin, top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Kelurahan/Desa dan RT/RW',
-                style: AppText.textBase.copyWith(
-                    fontWeight: AppText.semiBold, color: AppColorText.primary),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton2(
-                      isExpanded: true,
-                      hint: Text(
-                        'Kelurahan/Desa',
-                        style: AppText.textSmall.copyWith(
-                            fontWeight: AppText.medium,
-                            color: AppColorText.secondary),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      items: _dataSubDist
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item['id'].toString(),
-                                child: Text(
-                                  item['nama'],
-                                  style: AppText.textSmall.copyWith(
-                                      fontWeight: AppText.medium,
-                                      color: AppColorText.primary),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                          .toList(),
-                      value: _getSubDist,
-                      onChanged: (value) {
-                        setState(() {
-                          _getSubDist = value;
-                          getDetailSubDistrict();
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                      ),
-                      iconSize: 25,
-                      iconEnabledColor: AppColorText.secondary,
-                      iconDisabledColor: Colors.grey,
-                      buttonHeight: 46,
-                      buttonWidth: 163,
-                      buttonPadding: const EdgeInsets.only(left: 12, right: 8),
-                      buttonDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+    Widget inputKelurahanDesa() {
+      return Container(
+        margin:
+            EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Kecamatan/Desa dan RT/RW',
+              style: AppText.textBase.copyWith(
+                  fontWeight: AppText.semiBold, color: AppColorText.primary),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 46,
+                    width: 163,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColorPrimay.white,
                         border: Border.all(
                           color: AppColorText.secondary,
-                        ),
-                        color: AppColorPrimay.white,
-                      ),
-                      itemHeight: 40,
-                      dropdownMaxHeight: 200,
-                      dropdownWidth: 163,
-                      dropdownPadding: null,
-                      dropdownDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColorPrimay.white,
-                      ),
-                      scrollbarThickness: 6,
-                      scrollbarAlwaysShow: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      height: 46,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: AppColorPrimay.white,
-                          border: Border.all(
-                            color: AppColorText.secondary,
-                          )),
-                      child: Center(
-                        child: TextFormField(
-                          cursorColor: AppColorText.primary,
-                          autocorrect: false,
-                          style: AppText.textBase
-                              .copyWith(fontWeight: AppText.medium),
-                          decoration: InputDecoration.collapsed(
-                            hintText: 'RT',
-                            hintStyle: AppText.textBase.copyWith(
-                                fontSize: 12,
-                                fontWeight: AppText.medium,
-                                color: AppColorText.secondary),
-                          ),
+                        )),
+                    child: Center(
+                      child: TextFormField(
+                        controller: kecamatanController,
+                        cursorColor: AppColorText.primary,
+                        autocorrect: false,
+                        style: AppText.textBase
+                            .copyWith(fontWeight: AppText.medium),
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Kecamatan/Desa',
+                          hintStyle: AppText.textBase.copyWith(
+                              fontSize: 12, fontWeight: AppText.medium),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 46,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: AppColorPrimay.white,
-                          border: Border.all(
-                            color: AppColorText.secondary,
-                          )),
-                      child: Center(
-                        child: TextFormField(
-                          cursorColor: AppColorText.primary,
-                          autocorrect: false,
-                          style: AppText.textBase
-                              .copyWith(fontWeight: AppText.medium),
-                          decoration: InputDecoration.collapsed(
-                            hintText: 'RW',
-                            hintStyle: AppText.textBase.copyWith(
-                                fontSize: 12,
-                                fontWeight: AppText.medium,
-                                color: AppColorText.secondary),
-                          ),
-                        ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Container(
+                  height: 46,
+                  width: 83,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: AppColorPrimay.white,
+                      border: Border.all(
+                        color: AppColorText.secondary,
+                      )),
+                  child: Center(
+                    child: TextFormField(
+                      controller: rtController,
+                      cursorColor: AppColorText.primary,
+                      autocorrect: false,
+                      style:
+                          AppText.textBase.copyWith(fontWeight: AppText.medium),
+                      decoration: InputDecoration.collapsed(
+                        hintText: 'RT',
+                        hintStyle: AppText.textBase
+                            .copyWith(fontSize: 12, fontWeight: AppText.medium),
                       ),
                     ),
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Container(
+                  height: 46,
+                  width: 83,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: AppColorPrimay.white,
+                      border: Border.all(
+                        color: AppColorText.secondary,
+                      )),
+                  child: Center(
+                    child: TextFormField(
+                      controller: rwController,
+                      cursorColor: AppColorText.primary,
+                      autocorrect: false,
+                      style:
+                          AppText.textBase.copyWith(fontWeight: AppText.medium),
+                      decoration: InputDecoration.collapsed(
+                        hintText: 'RW',
+                        hintStyle: AppText.textBase
+                            .copyWith(fontSize: 12, fontWeight: AppText.medium),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       );
     }
@@ -469,6 +328,7 @@ class _AlamatPageState extends State<AlamatPage> {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: addressController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -507,6 +367,13 @@ class _AlamatPageState extends State<AlamatPage> {
             GestureDetector(
               onTap: () {
                 Get.toNamed(Routes.usernameandpassword);
+                print(provinsiController.text);
+                print(kotaController.text);
+                print(kecamatanController.text);
+                print(rtController.text);
+                print(rwController.text);
+                print(addressController.text);
+                storedata();
               },
               child: Container(
                 height: 36,
@@ -541,7 +408,7 @@ class _AlamatPageState extends State<AlamatPage> {
                 indicator(),
                 header(),
                 inputProvinsiKota(),
-                inputKelurahanDesa(disableSubDist),
+                inputKelurahanDesa(),
                 inputDetailAlamat(),
                 buttonNext(),
               ],

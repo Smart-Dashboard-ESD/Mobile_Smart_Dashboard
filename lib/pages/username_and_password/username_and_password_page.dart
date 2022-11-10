@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
+import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UsernameAndPasswordPage extends StatefulWidget {
   const UsernameAndPasswordPage({super.key});
@@ -11,6 +13,11 @@ class UsernameAndPasswordPage extends StatefulWidget {
 }
 
 class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  late SharedPreferences sharedPreferences;
+
   final textFieldFocusNode = FocusNode();
   bool _obscured = true;
 
@@ -22,6 +29,30 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
       }
       textFieldFocusNode.canRequestFocus = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialGetSavedData();
+  }
+
+  void initialGetSavedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    final String usernamePref =
+        sharedPreferences.getString(SharedPreferenceKey.username) ?? "";
+    usernameController.value = TextEditingValue(text: usernamePref);
+
+    final String passwordPref =
+        sharedPreferences.getString(SharedPreferenceKey.password) ?? "";
+    passwordController.value = TextEditingValue(text: passwordPref);
+  }
+
+  void storedata() {
+    sharedPreferences.setString(
+        SharedPreferenceKey.username, usernameController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.password, passwordController.text);
   }
 
   @override
@@ -94,6 +125,7 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: usernameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -110,48 +142,49 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
       );
     }
 
-    Widget inputNomorTelepon() {
-      return Container(
-        margin:
-            EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Nomor Telepon',
-              style: AppText.textBase.copyWith(
-                  fontWeight: AppText.semiBold, color: AppColorText.primary),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Container(
-              height: 46,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: AppColorPrimay.white,
-                  border: Border.all(
-                    color: AppColorText.secondary,
-                  )),
-              child: Center(
-                child: TextFormField(
-                  cursorColor: AppColorText.primary,
-                  autocorrect: false,
-                  keyboardType: TextInputType.number,
-                  style: AppText.textBase.copyWith(fontWeight: AppText.medium),
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Masukkan nomor telepon anda',
-                    hintStyle: AppText.textBase
-                        .copyWith(fontSize: 12, fontWeight: AppText.medium),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
+    // Widget inputNomorTelepon() {
+    //   return Container(
+    //     margin:
+    //         EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 8),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Text(
+    //           'Nomor Telepon',
+    //           style: AppText.textBase.copyWith(
+    //               fontWeight: AppText.semiBold, color: AppColorText.primary),
+    //         ),
+    //         const SizedBox(
+    //           height: 8,
+    //         ),
+    //         Container(
+    //           height: 46,
+    //           padding: const EdgeInsets.symmetric(horizontal: 16),
+    //           decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.circular(4),
+    //               color: AppColorPrimay.white,
+    //               border: Border.all(
+    //                 color: AppColorText.secondary,
+    //               )),
+    //           child: Center(
+    //             child: TextFormField(
+    //               controller: nomorteleponController,
+    //               cursorColor: AppColorText.primary,
+    //               autocorrect: false,
+    //               keyboardType: TextInputType.number,
+    //               style: AppText.textBase.copyWith(fontWeight: AppText.medium),
+    //               decoration: InputDecoration.collapsed(
+    //                 hintText: 'Masukkan nomor telepon anda',
+    //                 hintStyle: AppText.textBase
+    //                     .copyWith(fontSize: 12, fontWeight: AppText.medium),
+    //               ),
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   );
+    // }
 
     Widget passwordInput() {
       return Container(
@@ -182,6 +215,7 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: _obscured,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
@@ -213,65 +247,66 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
       );
     }
 
-    Widget passwordConfirInput() {
-      return Container(
-        margin:
-            EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Konfirmasi Password',
-              style: AppText.textBase.copyWith(
-                  fontWeight: AppText.semiBold, color: AppColorText.primary),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Container(
-              height: 46,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: AppColorPrimay.white,
-                  border: Border.all(
-                    color: AppColorText.secondary,
-                  )),
-              child: Center(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        obscureText: _obscured,
-                        cursorColor: AppColorText.primary,
-                        autocorrect: false,
-                        style: AppText.textSmall
-                            .copyWith(fontWeight: AppText.medium),
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Masukkan konfirmasi password anda',
-                          hintStyle: AppText.textSmall.copyWith(
-                              fontSize: 12, fontWeight: AppText.medium),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: _toggleObscured,
-                      child: Icon(
-                        _obscured
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        size: 18,
-                        color: AppColorText.primary,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
+    // Widget passwordConfirInput() {
+    //   return Container(
+    //     margin:
+    //         EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 8),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Text(
+    //           'Konfirmasi Password',
+    //           style: AppText.textBase.copyWith(
+    //               fontWeight: AppText.semiBold, color: AppColorText.primary),
+    //         ),
+    //         const SizedBox(
+    //           height: 8,
+    //         ),
+    //         Container(
+    //           height: 46,
+    //           padding: const EdgeInsets.symmetric(horizontal: 16),
+    //           decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.circular(4),
+    //               color: AppColorPrimay.white,
+    //               border: Border.all(
+    //                 color: AppColorText.secondary,
+    //               )),
+    //           child: Center(
+    //             child: Row(
+    //               children: [
+    //                 Expanded(
+    //                   child: TextFormField(
+    //                     controller: passwordConfirController,
+    //                     obscureText: _obscured,
+    //                     cursorColor: AppColorText.primary,
+    //                     autocorrect: false,
+    //                     style: AppText.textSmall
+    //                         .copyWith(fontWeight: AppText.medium),
+    //                     decoration: InputDecoration.collapsed(
+    //                       hintText: 'Masukkan konfirmasi password anda',
+    //                       hintStyle: AppText.textSmall.copyWith(
+    //                           fontSize: 12, fontWeight: AppText.medium),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 GestureDetector(
+    //                   onTap: _toggleObscured,
+    //                   child: Icon(
+    //                     _obscured
+    //                         ? Icons.visibility_off_outlined
+    //                         : Icons.visibility_outlined,
+    //                     size: 18,
+    //                     color: AppColorText.primary,
+    //                   ),
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   );
+    // }
 
     Widget buttonNext() {
       return Container(
@@ -293,6 +328,9 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
             GestureDetector(
               onTap: () {
                 Get.toNamed(Routes.successregister);
+                storedata();
+                print(usernameController.text);
+                print(passwordController.text);
               },
               child: Container(
                 height: 36,
@@ -327,9 +365,9 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
                 indicator(),
                 header(),
                 inputUsername(),
-                inputNomorTelepon(),
+                // inputNomorTelepon(),
                 passwordInput(),
-                passwordConfirInput(),
+                // passwordConfirInput(),
                 buttonNext(),
               ],
             )),

@@ -19,7 +19,10 @@ class AppPages {
   static const initial = Routes.nomorpenduduk;
 
   static final routes = [
-    GetPage(name: Routes.nomorpenduduk, page: () => const NomorPendudukPage()),
+    GetPage(
+      name: Routes.nomorpenduduk,
+      page: () => const NomorPendudukPage(),
+    ),
     GetPage(name: Routes.datadiri, page: () => const DataDiriPage()),
     GetPage(name: Routes.alamat, page: () => const AlamatPage()),
     GetPage(
