@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/registerC.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -13,7 +14,7 @@ class NomorPendudukPage extends StatefulWidget {
 }
 
 class _NomorPendudukPageState extends State<NomorPendudukPage> {
-  TextEditingController nikController = TextEditingController();
+  final c = Get.find<RegisterC>();
   late SharedPreferences sharedPreferences;
 
   @override
@@ -26,11 +27,11 @@ class _NomorPendudukPageState extends State<NomorPendudukPage> {
     sharedPreferences = await SharedPreferences.getInstance();
     final String nikPref =
         sharedPreferences.getString(SharedPreferenceKey.nik) ?? "";
-    nikController.value = TextEditingValue(text: nikPref);
+    c.nikController.value = TextEditingValue(text: nikPref);
   }
 
   void storedata() {
-    sharedPreferences.setString(SharedPreferenceKey.nik, nikController.text);
+    sharedPreferences.setString(SharedPreferenceKey.nik, c.nikController.text);
   }
 
   @override
@@ -103,7 +104,7 @@ class _NomorPendudukPageState extends State<NomorPendudukPage> {
                   )),
               child: Center(
                 child: TextFormField(
-                  controller: nikController,
+                  controller: c.nikController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   keyboardType: TextInputType.number,
@@ -125,7 +126,7 @@ class _NomorPendudukPageState extends State<NomorPendudukPage> {
       return GestureDetector(
         onTap: () {
           Get.toNamed(Routes.datadiri);
-          print(nikController.text);
+          print(c.nikController.text);
           storedata();
         },
         child: Align(

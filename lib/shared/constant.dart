@@ -7,7 +7,7 @@ class SharedPreferenceKey {
   static const province = "province";
   static const city = "city";
   static const nomortelepon = "nomortelepon";
-  static const keluarahan = "keluarahan";
+  static const kelurahan = "keluarahan";
   static const rt = "rt";
   static const rw = "rw";
   static const address = "address";

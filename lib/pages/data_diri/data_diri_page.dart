@@ -1,5 +1,5 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/registerC.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -14,10 +14,7 @@ class DataDiriPage extends StatefulWidget {
 }
 
 class _DataDiriPageState extends State<DataDiriPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController birthplaceController = TextEditingController();
-  TextEditingController birthdateController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
+  final c = Get.find<RegisterC>();
 
   late SharedPreferences sharedPreferences;
 
@@ -35,7 +32,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
 
     if (date != null) {
       setState(() {
-        birthdateController.text = date.day.toString() +
+        c.birthdateController.text = date.day.toString() +
             "-" +
             date.month.toString() +
             "-" +
@@ -54,29 +51,30 @@ class _DataDiriPageState extends State<DataDiriPage> {
     sharedPreferences = await SharedPreferences.getInstance();
     final String namePref =
         sharedPreferences.getString(SharedPreferenceKey.name) ?? "";
-    nameController.value = TextEditingValue(text: namePref);
+    c.nameController.value = TextEditingValue(text: namePref);
 
     final String birthplacePref =
         sharedPreferences.getString(SharedPreferenceKey.birthplace) ?? "";
-    birthplaceController.value = TextEditingValue(text: birthplacePref);
+    c.birthplaceController.value = TextEditingValue(text: birthplacePref);
 
     final String birthdatePref =
         sharedPreferences.getString(SharedPreferenceKey.birthdate) ?? "";
-    birthdateController.value = TextEditingValue(text: birthdatePref);
+    c.birthdateController.value = TextEditingValue(text: birthdatePref);
 
     final String genderPref =
         sharedPreferences.getString(SharedPreferenceKey.gender) ?? "";
-    genderController.value = TextEditingValue(text: genderPref);
+    c.genderController.value = TextEditingValue(text: genderPref);
   }
 
   void storedata() {
-    sharedPreferences.setString(SharedPreferenceKey.name, nameController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.birthplace, birthplaceController.text);
+        SharedPreferenceKey.name, c.nameController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.birthdate, birthdateController.text);
+        SharedPreferenceKey.birthplace, c.birthplaceController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.gender, genderController.text);
+        SharedPreferenceKey.birthdate, c.birthdateController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.gender, c.genderController.text);
   }
 
   @override
@@ -149,7 +147,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                   )),
               child: Center(
                 child: TextFormField(
-                  controller: nameController,
+                  controller: c.nameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -197,7 +195,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                         )),
                     child: Center(
                       child: TextFormField(
-                        controller: birthplaceController,
+                        controller: c.birthplaceController,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
                         style: AppText.textBase
@@ -231,7 +229,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                         children: [
                           Expanded(
                             child: TextFormField(
-                              controller: birthdateController,
+                              controller: c.birthdateController,
                               cursorColor: AppColorText.primary,
                               autocorrect: false,
                               style: AppText.textBase
@@ -285,7 +283,7 @@ class _DataDiriPageState extends State<DataDiriPage> {
                   )),
               child: Center(
                 child: TextFormField(
-                  controller: genderController,
+                  controller: c.genderController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -323,10 +321,11 @@ class _DataDiriPageState extends State<DataDiriPage> {
               onTap: () {
                 Get.toNamed(Routes.alamat);
                 storedata();
-                print(nameController.text);
-                print(birthplaceController.text);
-                print(birthdateController.text);
-                print(genderController.text);
+                print(c.nameController.text);
+                print(c.nikController.text);
+                print(c.birthplaceController.text);
+                print(c.birthdateController.text);
+                print(c.genderController.text);
               },
               child: Container(
                 height: 36,

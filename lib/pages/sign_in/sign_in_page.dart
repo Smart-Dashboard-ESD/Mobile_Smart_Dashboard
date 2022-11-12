@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/loginC.dart';
+import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -9,8 +16,10 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final c = Get.find<LoginC>();
   final textFieldFocusNode = FocusNode();
   bool _obscured = true;
+  late SharedPreferences sharedPreferences;
 
   void _toggleObscured() {
     setState(() {
@@ -22,8 +31,49 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initialGetSavedData();
+  // }
+
+  // void initialGetSavedData() async {
+  //   sharedPreferences = await SharedPreferences.getInstance();
+  //   final String usernamePref =
+  //       sharedPreferences.getString(SharedPreferenceKey.username) ?? "";
+  //   c.usernameController.value = TextEditingValue(text: usernamePref);
+
+  //   final String passwordPref =
+  //       sharedPreferences.getString(SharedPreferenceKey.password) ?? "";
+  //   c.passwordController.value = TextEditingValue(text: passwordPref);
+  // }
+
+  // void storedata() {
+  //   sharedPreferences.setString(
+  //       SharedPreferenceKey.username, c.usernameController.text);
+  //   sharedPreferences.setString(
+  //       SharedPreferenceKey.password, c.passwordController.text);
+  // }
+
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignIn() async {
+      if (await authProvider.login(
+          username: c.usernameController.text,
+          password: c.passwordController.text)) {
+        Get.toNamed(Routes.main);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColorDanger.normal,
+            content: Text(
+              'Gagal Login',
+              textAlign: TextAlign.center,
+            )));
+      }
+      // storedata();
+    }
+
     Widget header() {
       return Container(
         margin: const EdgeInsets.only(left: 32, right: 32, top: 64),
@@ -87,6 +137,7 @@ class _SignInPageState extends State<SignInPage> {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: c.usernameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textSmall.copyWith(fontWeight: AppText.medium),
@@ -130,6 +181,7 @@ class _SignInPageState extends State<SignInPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: c.passwordController,
                         obscureText: _obscured,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
@@ -167,7 +219,7 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: handleSignIn,
               child: Container(
                 height: 51,
                 width: double.infinity,
@@ -196,7 +248,9 @@ class _SignInPageState extends State<SignInPage> {
                       color: AppColorText.secondary),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.nomorpenduduk);
+                  },
                   child: Text(
                     'Sign Up',
                     style: AppText.textSmall.copyWith(

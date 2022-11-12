@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/registerC.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -13,12 +14,7 @@ class AlamatPage extends StatefulWidget {
 }
 
 class _AlamatPageState extends State<AlamatPage> {
-  TextEditingController provinsiController = TextEditingController();
-  TextEditingController kotaController = TextEditingController();
-  TextEditingController kecamatanController = TextEditingController();
-  TextEditingController rtController = TextEditingController();
-  TextEditingController rwController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  final c = Get.find<RegisterC>();
 
   late SharedPreferences sharedPreferences;
 
@@ -33,39 +29,40 @@ class _AlamatPageState extends State<AlamatPage> {
 
     final String provPref =
         sharedPreferences.getString(SharedPreferenceKey.province) ?? "";
-    rtController.value = TextEditingValue(text: provPref);
+    c.provinceController.value = TextEditingValue(text: provPref);
 
     final String kotaPref =
         sharedPreferences.getString(SharedPreferenceKey.city) ?? "";
-    rtController.value = TextEditingValue(text: kotaPref);
+    c.cityController.value = TextEditingValue(text: kotaPref);
 
     final String kecPref =
-        sharedPreferences.getString(SharedPreferenceKey.keluarahan) ?? "";
-    rtController.value = TextEditingValue(text: kecPref);
+        sharedPreferences.getString(SharedPreferenceKey.kelurahan) ?? "";
+    c.kelurahanController.value = TextEditingValue(text: kecPref);
 
     final String rtPref =
         sharedPreferences.getString(SharedPreferenceKey.rt) ?? "";
-    rtController.value = TextEditingValue(text: rtPref);
+    c.rtController.value = TextEditingValue(text: rtPref);
 
     final String rwPref =
         sharedPreferences.getString(SharedPreferenceKey.rw) ?? "";
-    rwController.value = TextEditingValue(text: rwPref);
+    c.rwController.value = TextEditingValue(text: rwPref);
 
     final String addressPref =
         sharedPreferences.getString(SharedPreferenceKey.address) ?? "";
-    addressController.value = TextEditingValue(text: addressPref);
+    c.addressController.value = TextEditingValue(text: addressPref);
   }
 
   void storedata() {
     sharedPreferences.setString(
-        SharedPreferenceKey.province, provinsiController.text);
-    sharedPreferences.setString(SharedPreferenceKey.city, kotaController.text);
+        SharedPreferenceKey.province, c.provinceController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.keluarahan, kecamatanController.text);
-    sharedPreferences.setString(SharedPreferenceKey.rt, rtController.text);
-    sharedPreferences.setString(SharedPreferenceKey.rw, rwController.text);
+        SharedPreferenceKey.city, c.cityController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.address, addressController.text);
+        SharedPreferenceKey.kelurahan, c.kelurahanController.text);
+    sharedPreferences.setString(SharedPreferenceKey.rt, c.rtController.text);
+    sharedPreferences.setString(SharedPreferenceKey.rw, c.rwController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.address, c.addressController.text);
   }
 
   @override
@@ -143,7 +140,7 @@ class _AlamatPageState extends State<AlamatPage> {
                         )),
                     child: Center(
                       child: TextFormField(
-                        controller: provinsiController,
+                        controller: c.provinceController,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
                         style: AppText.textBase
@@ -173,7 +170,7 @@ class _AlamatPageState extends State<AlamatPage> {
                         )),
                     child: Center(
                       child: TextFormField(
-                        controller: kotaController,
+                        controller: c.cityController,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
                         style: AppText.textBase
@@ -225,7 +222,7 @@ class _AlamatPageState extends State<AlamatPage> {
                         )),
                     child: Center(
                       child: TextFormField(
-                        controller: kecamatanController,
+                        controller: c.kelurahanController,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
                         style: AppText.textBase
@@ -254,7 +251,7 @@ class _AlamatPageState extends State<AlamatPage> {
                       )),
                   child: Center(
                     child: TextFormField(
-                      controller: rtController,
+                      controller: c.rtController,
                       cursorColor: AppColorText.primary,
                       autocorrect: false,
                       style:
@@ -282,7 +279,7 @@ class _AlamatPageState extends State<AlamatPage> {
                       )),
                   child: Center(
                     child: TextFormField(
-                      controller: rwController,
+                      controller: c.rwController,
                       cursorColor: AppColorText.primary,
                       autocorrect: false,
                       style:
@@ -328,7 +325,7 @@ class _AlamatPageState extends State<AlamatPage> {
                   )),
               child: Center(
                 child: TextFormField(
-                  controller: addressController,
+                  controller: c.addressController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -367,12 +364,12 @@ class _AlamatPageState extends State<AlamatPage> {
             GestureDetector(
               onTap: () {
                 Get.toNamed(Routes.usernameandpassword);
-                print(provinsiController.text);
-                print(kotaController.text);
-                print(kecamatanController.text);
-                print(rtController.text);
-                print(rwController.text);
-                print(addressController.text);
+                print(c.provinceController.text);
+                print(c.cityController.text);
+                print(c.kelurahanController.text);
+                print(c.rtController.text);
+                print(c.rwController.text);
+                print(c.addressController.text);
                 storedata();
               },
               child: Container(
