@@ -4,7 +4,7 @@ import 'package:mobile_smart_dashboard/shared/theme.dart';
 
 class PembayaranCard extends StatelessWidget {
   final Pembayaran pembayaranCard;
-  const PembayaranCard(this.pembayaranCard);
+  const PembayaranCard(this.pembayaranCard, {super.key});
 
   @override
   Widget build(BuildContext context) {

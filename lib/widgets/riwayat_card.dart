@@ -4,7 +4,7 @@ import 'package:mobile_smart_dashboard/shared/theme.dart';
 
 class RiwayatCard extends StatelessWidget {
   final RiwayatTransaksi riwayatTransaksi;
-  const RiwayatCard(this.riwayatTransaksi);
+  const RiwayatCard(this.riwayatTransaksi, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -141,7 +141,7 @@ class PembayaranPage extends StatelessWidget {
       return Container(
         margin: EdgeInsets.only(
             left: defaultMargin, right: defaultMargin, top: defaultMargin),
-        child: TransferPembayaranCard(),
+        child: const TransferPembayaranCard(),
       );
     }
 

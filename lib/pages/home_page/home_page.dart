@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     AspectRatio(
-                      aspectRatio: 16 / 12,
+                      aspectRatio: 20 / 12,
                       child: SizedBox(
                         child: Stack(children: [
                           DChartPie(

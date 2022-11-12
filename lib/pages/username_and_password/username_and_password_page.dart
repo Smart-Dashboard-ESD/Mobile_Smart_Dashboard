@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/registerC.dart';
+import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsernameAndPasswordPage extends StatefulWidget {
@@ -13,8 +16,7 @@ class UsernameAndPasswordPage extends StatefulWidget {
 }
 
 class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final c = Get.find<RegisterC>();
 
   late SharedPreferences sharedPreferences;
 
@@ -41,22 +43,52 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
     sharedPreferences = await SharedPreferences.getInstance();
     final String usernamePref =
         sharedPreferences.getString(SharedPreferenceKey.username) ?? "";
-    usernameController.value = TextEditingValue(text: usernamePref);
+    c.usernameController.value = TextEditingValue(text: usernamePref);
 
     final String passwordPref =
         sharedPreferences.getString(SharedPreferenceKey.password) ?? "";
-    passwordController.value = TextEditingValue(text: passwordPref);
+    c.passwordController.value = TextEditingValue(text: passwordPref);
   }
 
   void storedata() {
     sharedPreferences.setString(
-        SharedPreferenceKey.username, usernameController.text);
+        SharedPreferenceKey.username, c.usernameController.text);
     sharedPreferences.setString(
-        SharedPreferenceKey.password, passwordController.text);
+        SharedPreferenceKey.password, c.passwordController.text);
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignUp() async {
+      storedata();
+      if (await authProvider.register(
+        nik: c.nikController.text,
+        name: c.nameController.text,
+        birthplace: c.birthplaceController.text,
+        birthdate: c.birthdateController.text,
+        gender: c.genderController.text,
+        province: c.provinceController.text,
+        city: c.cityController.text,
+        kelurahan: c.kelurahanController.text,
+        rt: c.rtController.text,
+        rw: c.rwController.text,
+        address: c.addressController.text,
+        username: c.usernameController.text,
+        password: c.passwordController.text,
+      )) {
+        Get.toNamed(Routes.successregister);
+        await sharedPreferences.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColorDanger.normal,
+            content: Text(
+              'Gagal Register',
+              textAlign: TextAlign.center,
+            )));
+      }
+    }
+
     Widget indicator() {
       return const LinearProgressIndicator(
         value: 4 / 4,
@@ -125,7 +157,7 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
                   )),
               child: Center(
                 child: TextFormField(
-                  controller: usernameController,
+                  controller: c.usernameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textBase.copyWith(fontWeight: AppText.medium),
@@ -215,7 +247,7 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: passwordController,
+                        controller: c.passwordController,
                         obscureText: _obscured,
                         cursorColor: AppColorText.primary,
                         autocorrect: false,
@@ -326,12 +358,7 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.successregister);
-                storedata();
-                print(usernameController.text);
-                print(passwordController.text);
-              },
+              onTap: handleSignUp,
               child: Container(
                 height: 36,
                 width: 113,
