@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_smart_dashboard/controllers/loginC.dart';
+import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -16,7 +16,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final c = Get.find<LoginC>();
+  final c = Get.find<UserC>();
   final textFieldFocusNode = FocusNode();
   bool _obscured = true;
   late SharedPreferences sharedPreferences;

@@ -1,7 +1,12 @@
 import 'package:d_chart/d_chart.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/userC.dart';
+import 'package:mobile_smart_dashboard/models/user_model.dart';
+import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final c = Get.find<UserC>();
+
   final List<String> items = [
     'Hari ini',
     '1 Minggu',
@@ -31,6 +38,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(
@@ -62,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                     height: 4,
                   ),
                   Text(
-                    'Rizal Bimantoro',
+                    "${user.name}",
                     style: AppText.textBase.copyWith(
                         fontWeight: AppText.semiBold,
                         color: AppColorBlack.normal),

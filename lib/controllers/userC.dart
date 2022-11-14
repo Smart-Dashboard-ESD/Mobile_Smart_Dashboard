@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-class RegisterC extends GetxController {
+class UserC extends GetxController {
   TextEditingController nikController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController birthplaceController = TextEditingController();
