@@ -4,8 +4,8 @@ import 'package:mobile_smart_dashboard/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  // String baseUrl = 'https://xivwmhd5m2.us-east-1.awsapprunner.com/users';
-  String baseUrl = 'https://be-smart-dashboard.herokuapp.com/api/user';
+  String baseUrl = 'https://xivwmhd5m2.us-east-1.awsapprunner.com/users';
+  // String baseUrl = 'https://be-smart-dashboard.herokuapp.com/api/user';
 
   Future<UserModel> register({
     String? nik,
@@ -14,8 +14,8 @@ class AuthService {
     String? birthdate,
     String? gender,
     String? province,
-    String? city,
-    String? kelurahan,
+    // String? city,
+    // String? kelurahan,
     String? rt,
     String? rw,
     String? address,
@@ -33,8 +33,8 @@ class AuthService {
       'birthdate': birthdate,
       'gender': gender,
       'province': province,
-      'city': city,
-      'kelurahan': kelurahan,
+      // 'city': city,
+      // 'kelurahan': kelurahan,
       'rt': rt,
       'rw': rw,
       'address': address,
@@ -45,7 +45,7 @@ class AuthService {
     var response = await http.post(url, headers: headers, body: body);
     print(response.body);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       var data = jsonDecode(response.body);
       UserModel user = UserModel.fromJson(data);
 
@@ -71,7 +71,7 @@ class AuthService {
     var response = await http.post(url, headers: headers, body: body);
     print(response.body);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       var data = jsonDecode(response.body.toString());
       UserModel user = UserModel.fromJson(data);
 

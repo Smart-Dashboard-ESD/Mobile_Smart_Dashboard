@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_smart_dashboard/controllers/registerC.dart';
+import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
@@ -16,7 +16,7 @@ class UsernameAndPasswordPage extends StatefulWidget {
 }
 
 class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
-  final c = Get.find<RegisterC>();
+  final c = Get.find<UserC>();
 
   late SharedPreferences sharedPreferences;
 
@@ -69,8 +69,8 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
         birthdate: c.birthdateController.text,
         gender: c.genderController.text,
         province: c.provinceController.text,
-        city: c.cityController.text,
-        kelurahan: c.kelurahanController.text,
+        // city: c.cityController.text,
+        // kelurahan: c.kelurahanController.text,
         rt: c.rtController.text,
         rw: c.rwController.text,
         address: c.addressController.text,

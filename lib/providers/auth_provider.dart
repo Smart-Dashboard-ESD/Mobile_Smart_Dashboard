@@ -3,9 +3,9 @@ import 'package:mobile_smart_dashboard/models/user_model.dart';
 import 'package:mobile_smart_dashboard/services/auth_service.dart';
 
 class AuthProvider with ChangeNotifier {
-  late UserModel _user;
+  UserModel? _user;
 
-  UserModel get user => _user;
+  UserModel get user => _user!;
 
   set user(UserModel user) {
     _user = user;
@@ -19,8 +19,8 @@ class AuthProvider with ChangeNotifier {
     String? birthdate,
     String? gender,
     String? province,
-    String? city,
-    String? kelurahan,
+    // String? city,
+    // String? kelurahan,
     String? rt,
     String? rw,
     String? address,
@@ -35,8 +35,8 @@ class AuthProvider with ChangeNotifier {
         birthdate: birthdate,
         gender: gender,
         province: province,
-        city: city,
-        kelurahan: kelurahan,
+        // city: city,
+        // kelurahan: kelurahan,
         rt: rt,
         rw: rw,
         address: address,

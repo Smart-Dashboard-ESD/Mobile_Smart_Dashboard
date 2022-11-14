@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_smart_dashboard/controllers/registerC.dart';
+import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -14,7 +14,7 @@ class DataDiriPage extends StatefulWidget {
 }
 
 class _DataDiriPageState extends State<DataDiriPage> {
-  final c = Get.find<RegisterC>();
+  final c = Get.find<UserC>();
 
   late SharedPreferences sharedPreferences;
 

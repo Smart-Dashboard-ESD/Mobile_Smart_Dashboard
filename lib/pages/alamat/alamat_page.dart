@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_smart_dashboard/controllers/registerC.dart';
+import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
@@ -14,7 +14,7 @@ class AlamatPage extends StatefulWidget {
 }
 
 class _AlamatPageState extends State<AlamatPage> {
-  final c = Get.find<RegisterC>();
+  final c = Get.find<UserC>();
 
   late SharedPreferences sharedPreferences;
 
@@ -254,6 +254,7 @@ class _AlamatPageState extends State<AlamatPage> {
                       controller: c.rtController,
                       cursorColor: AppColorText.primary,
                       autocorrect: false,
+                      keyboardType: TextInputType.number,
                       style:
                           AppText.textBase.copyWith(fontWeight: AppText.medium),
                       decoration: InputDecoration.collapsed(
@@ -282,6 +283,7 @@ class _AlamatPageState extends State<AlamatPage> {
                       controller: c.rwController,
                       cursorColor: AppColorText.primary,
                       autocorrect: false,
+                      keyboardType: TextInputType.number,
                       style:
                           AppText.textBase.copyWith(fontWeight: AppText.medium),
                       decoration: InputDecoration.collapsed(
