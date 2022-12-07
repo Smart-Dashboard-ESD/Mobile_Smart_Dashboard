@@ -69,8 +69,6 @@ class _UsernameAndPasswordState extends State<UsernameAndPasswordPage> {
         birthdate: c.birthdateController.text,
         gender: c.genderController.text,
         province: c.provinceController.text,
-        // city: c.cityController.text,
-        // kelurahan: c.kelurahanController.text,
         rt: c.rtController.text,
         rw: c.rwController.text,
         address: c.addressController.text,

@@ -1,12 +1,92 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_smart_dashboard/controllers/feedbackC.dart';
+import 'package:mobile_smart_dashboard/providers/feedback_provider.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
+import 'package:mobile_smart_dashboard/shared/constant.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class FormPengaduanPage extends StatelessWidget {
+class FormPengaduanPage extends StatefulWidget {
   const FormPengaduanPage({super.key});
 
   @override
+  State<FormPengaduanPage> createState() => _FormPengaduanPageState();
+}
+
+class _FormPengaduanPageState extends State<FormPengaduanPage> {
+  final feedbackC = Get.find<FeedbackC>();
+
+  late SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    initialGetSavedData();
+  }
+
+  void initialGetSavedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    final String namePref =
+        sharedPreferences.getString(SharedPreferenceKey.nameF) ?? "";
+    feedbackC.nameController.value = TextEditingValue(text: namePref);
+
+    final String kodeAlatPref =
+        sharedPreferences.getString(SharedPreferenceKey.kodeAlat) ?? "";
+    feedbackC.kodeAlatController.value = TextEditingValue(text: kodeAlatPref);
+
+    final String addressPref =
+        sharedPreferences.getString(SharedPreferenceKey.addressF) ?? "";
+    feedbackC.addressController.value = TextEditingValue(text: addressPref);
+
+    final String nomorTeleponPref =
+        sharedPreferences.getString(SharedPreferenceKey.nomorteleponF) ?? "";
+    feedbackC.noHpController.value = TextEditingValue(text: nomorTeleponPref);
+
+    final String feedbackPref =
+        sharedPreferences.getString(SharedPreferenceKey.feedback) ?? "";
+    feedbackC.keluhanController.value = TextEditingValue(text: feedbackPref);
+  }
+
+  void storedata() {
+    sharedPreferences.setString(
+        SharedPreferenceKey.name, feedbackC.nameController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.kodeAlat, feedbackC.kodeAlatController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.addressF, feedbackC.addressController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.nomorteleponF, feedbackC.noHpController.text);
+    sharedPreferences.setString(
+        SharedPreferenceKey.feedback, feedbackC.keluhanController.text);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    FeedbackProvider feedbackProvider = Provider.of<FeedbackProvider>(context);
+
+    handleSubmit() async {
+      storedata();
+      if (await feedbackProvider.feedback(
+        name: feedbackC.nameController.text,
+        kodeAlat: feedbackC.kodeAlatController.text,
+        address: feedbackC.addressController.text,
+        noHp: feedbackC.noHpController.text,
+        feedback: feedbackC.keluhanController.text,
+      )) {
+        Get.toNamed(Routes.main);
+        await sharedPreferences.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColorDanger.normal,
+            content: Text(
+              'Gagal Mengirim Feedback',
+              textAlign: TextAlign.center,
+            )));
+      }
+    }
+
     Widget header() {
       return AppBar(
         backgroundColor: AppColorPrimay.background,
@@ -55,6 +135,7 @@ class FormPengaduanPage extends StatelessWidget {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: feedbackC.nameController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textSmall.copyWith(fontWeight: AppText.medium),
@@ -98,6 +179,7 @@ class FormPengaduanPage extends StatelessWidget {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: feedbackC.kodeAlatController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textSmall.copyWith(fontWeight: AppText.medium),
@@ -140,6 +222,7 @@ class FormPengaduanPage extends StatelessWidget {
                     color: AppColorText.secondary,
                   )),
               child: TextFormField(
+                controller: feedbackC.addressController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 cursorColor: AppColorText.primary,
@@ -184,6 +267,7 @@ class FormPengaduanPage extends StatelessWidget {
                   )),
               child: Center(
                 child: TextFormField(
+                  controller: feedbackC.noHpController,
                   cursorColor: AppColorText.primary,
                   autocorrect: false,
                   style: AppText.textSmall.copyWith(fontWeight: AppText.medium),
@@ -226,6 +310,7 @@ class FormPengaduanPage extends StatelessWidget {
                     color: AppColorText.secondary,
                   )),
               child: TextFormField(
+                controller: feedbackC.keluhanController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 cursorColor: AppColorText.primary,
@@ -245,9 +330,9 @@ class FormPengaduanPage extends StatelessWidget {
       );
     }
 
-    Widget nextButton() {
+    Widget submitButton() {
       return GestureDetector(
-        onTap: () {},
+        onTap: handleSubmit,
         child: Align(
           alignment: Alignment.bottomRight,
           child: Container(
@@ -284,7 +369,7 @@ class FormPengaduanPage extends StatelessWidget {
                 alamatInput(),
                 nomorTelfonInput(),
                 keluhanInput(),
-                nextButton(),
+                submitButton(),
               ],
             )),
       ),

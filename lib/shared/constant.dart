@@ -13,4 +13,9 @@ class SharedPreferenceKey {
   static const address = "address";
   static const username = "username";
   static const password = "password";
+  static const nameF = "nameF";
+  static const kodeAlat = "kodeAlat";
+  static const addressF = "addressF";
+  static const nomorteleponF = "nomorteleponF";
+  static const feedback = "feedback";
 }
