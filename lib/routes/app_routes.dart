@@ -17,7 +17,7 @@ import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
 class AppPages {
-  static const initial = Routes.account;
+  static const initial = Routes.signin;
 
   static final routes = [
     GetPage(
