@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/models/user_model.dart';
 import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
@@ -50,10 +51,15 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Row(
           children: [
-            Image.asset(
-              'assets/bitmap/profile_icon.png',
-              height: 45,
-              width: 45,
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.account);
+              },
+              child: Image.asset(
+                'assets/bitmap/profile_icon.png',
+                height: 45,
+                width: 45,
+              ),
             ),
             const SizedBox(
               width: 15,

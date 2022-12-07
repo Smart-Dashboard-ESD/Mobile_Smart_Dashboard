@@ -1,3 +1,4 @@
+import 'package:mobile_smart_dashboard/pages/account/account_page.dart';
 import 'package:mobile_smart_dashboard/pages/alamat/alamat_page.dart';
 import 'package:mobile_smart_dashboard/pages/data_diri/data_diri_page.dart';
 import 'package:mobile_smart_dashboard/pages/main_page/main_page.dart';
@@ -16,7 +17,7 @@ import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import "package:get/get.dart";
 
 class AppPages {
-  static const initial = Routes.signin;
+  static const initial = Routes.account;
 
   static final routes = [
     GetPage(
@@ -40,5 +41,6 @@ class AppPages {
     GetPage(name: Routes.formpengaduan, page: () => const FormPengaduanPage()),
     GetPage(name: Routes.pembayaran, page: () => const PembayaranPage()),
     GetPage(name: Routes.main, page: () => const MainPage()),
+    GetPage(name: Routes.account, page: () => const AccountPage()),
   ];
 }
