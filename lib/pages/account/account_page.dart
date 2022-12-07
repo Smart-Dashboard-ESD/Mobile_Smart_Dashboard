@@ -179,8 +179,11 @@ class AccountPage extends StatelessWidget {
 
     Widget general() {
       return Container(
-        margin:
-            EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 40),
+        margin: EdgeInsets.only(
+            left: defaultMargin,
+            right: defaultMargin,
+            top: 40,
+            bottom: defaultMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
