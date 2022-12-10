@@ -18,12 +18,32 @@ dependencies:
   dropdown_button2: ^1.8.1
   d_chart: ^0.0.4
   http: ^0.13.5
+  shared_preferences: ^2.0.15
+  provider: ^6.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/bitmap/launcher_icon.png"
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
 
 flutter:
   uses-material-design: true
@@ -32,6 +52,7 @@ flutter:
     - assets/vector/
     - assets/bitmap/
     - assets/json/
+    - assets/fonts/
 
   fonts:
     - family: Inter
