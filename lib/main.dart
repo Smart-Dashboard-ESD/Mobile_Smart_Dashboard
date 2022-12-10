@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobile_smart_dashboard/controllers/feedbackC.dart';
 import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
+import 'package:mobile_smart_dashboard/providers/device_provider.dart';
 import 'package:mobile_smart_dashboard/providers/feedback_provider.dart';
 import 'package:mobile_smart_dashboard/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class MobileSmartDashboard extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => FeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => DeviceProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_smart_dashboard/models/user_model.dart';
+import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
+import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+
     Widget header() {
       return AppBar(
         backgroundColor: AppColorPrimay.background,
@@ -53,7 +60,7 @@ class AccountPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rizal Bimantoro',
+                    '${user.name}',
                     style: AppText.textLarge.copyWith(
                       fontWeight: AppText.semiBold,
                     ),
@@ -69,7 +76,7 @@ class AccountPage extends StatelessWidget {
                   const SizedBox(
                     height: 2,
                   ),
-                  Text('Bandung, Jawa Barat',
+                  Text('${user.province}',
                       style: AppText.textBase.copyWith(
                         fontWeight: AppText.medium,
                         color: AppColorText.secondary,
@@ -99,8 +106,11 @@ class AccountPage extends StatelessWidget {
 
     Widget activity() {
       return Container(
-        margin:
-            EdgeInsets.only(left: defaultMargin, right: defaultMargin, top: 20),
+        margin: EdgeInsets.only(
+            left: defaultMargin,
+            right: defaultMargin,
+            top: 20,
+            bottom: defaultMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -180,10 +190,7 @@ class AccountPage extends StatelessWidget {
     Widget general() {
       return Container(
         margin: EdgeInsets.only(
-            left: defaultMargin,
-            right: defaultMargin,
-            top: 40,
-            bottom: defaultMargin),
+            left: defaultMargin, right: defaultMargin, top: 40, bottom: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -333,29 +340,35 @@ class AccountPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.logout_rounded,
-                  size: 30,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: Text(
-                    'Log Out',
-                    style: AppText.textLarge.copyWith(
-                      fontWeight: AppText.medium,
-                      color: AppColorText.primary,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Routes.signin, (route) => false);
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.logout_rounded,
+                    size: 30,
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Log Out',
+                      style: AppText.textLarge.copyWith(
+                        fontWeight: AppText.medium,
+                        color: AppColorText.primary,
+                      ),
                     ),
                   ),
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 20,
-                )
-              ],
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                  )
+                ],
+              ),
             ),
           ],
         ),
