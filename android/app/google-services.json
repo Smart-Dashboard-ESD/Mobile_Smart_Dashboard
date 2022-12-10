@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34292254180",
+    "project_id": "smart-dashboard-ac5fa",
+    "storage_bucket": "smart-dashboard-ac5fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34292254180:android:47e098032da21a311073f1",
+        "android_client_info": {
+          "package_name": "com.example.mobile_smart_dashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34292254180-bg7edh01navpt86js7k6f46a2agllsrs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRvEb1kB2QOuzYNEerfNCwc-mW3IVPKG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34292254180-bg7edh01navpt86js7k6f46a2agllsrs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
