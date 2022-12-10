@@ -41,7 +41,7 @@ class AuthService {
     print(response.body);
 
     if (response.statusCode == 201) {
-      var data = jsonDecode(response.body);
+      var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data);
 
       return user;
@@ -69,6 +69,8 @@ class AuthService {
     if (response.statusCode == 201) {
       var data = jsonDecode(response.body.toString());
       UserModel user = UserModel.fromJson(data);
+      user.token = 'Bearer ' + jsonDecode(response.body)['token'];
+      print("User Token : ${user.token}");
 
       return user;
     } else {

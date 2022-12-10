@@ -1,6 +1,7 @@
 import 'package:mobile_smart_dashboard/pages/account/account_page.dart';
 import 'package:mobile_smart_dashboard/pages/alamat/alamat_page.dart';
 import 'package:mobile_smart_dashboard/pages/data_diri/data_diri_page.dart';
+import 'package:mobile_smart_dashboard/pages/home_page/penggunaan_air.dart';
 import 'package:mobile_smart_dashboard/pages/main_page/main_page.dart';
 import 'package:mobile_smart_dashboard/pages/nomor_penduduk/nomor_penduduk_page.dart';
 import 'package:mobile_smart_dashboard/pages/username_and_password/username_and_password_page.dart';
@@ -42,5 +43,6 @@ class AppPages {
     GetPage(name: Routes.pembayaran, page: () => const PembayaranPage()),
     GetPage(name: Routes.main, page: () => const MainPage()),
     GetPage(name: Routes.account, page: () => const AccountPage()),
+    GetPage(name: Routes.penggunaanair, page: () => const PenggunaanAir()),
   ];
 }

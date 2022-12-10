@@ -1,4 +1,5 @@
 class UserModel {
+  int? id;
   String? nik;
   String? name;
   String? birthplace;
@@ -9,9 +10,11 @@ class UserModel {
   String? rw;
   String? address;
   String? username;
+  String? token;
 
   UserModel(
-      {this.nik,
+      {this.id,
+      this.nik,
       this.name,
       this.birthplace,
       this.birthdate,
@@ -20,11 +23,13 @@ class UserModel {
       this.rt,
       this.rw,
       this.address,
-      this.username});
+      this.username,
+      this.token});
 
   UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     nik = json['nik'];
-    name= json['name'];
+    name = json['name'];
     birthplace = json['birthplace'];
     birthdate = json['birthdate'];
     gender = json['gender'];
@@ -33,10 +38,12 @@ class UserModel {
     rw = json['rw'];
     address = json['address'];
     username = json['username'];
+    token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['nik'] = this.nik;
     data['name'] = this.name;
     data['birthplace'] = this.birthplace;
@@ -47,6 +54,7 @@ class UserModel {
     data['rw'] = this.rw;
     data['address'] = this.address;
     data['username'] = this.username;
+    data['token'] = this.token;
     return data;
   }
 }

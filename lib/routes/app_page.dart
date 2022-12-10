@@ -14,4 +14,5 @@ abstract class Routes {
   static const String pembayaran = '/pembayaran';
   static const String main = '/main';
   static const String account = '/account';
+  static const String penggunaanair = '/penggunaanair';
 }

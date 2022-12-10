@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_smart_dashboard/controllers/userC.dart';
 import 'package:mobile_smart_dashboard/models/user_model.dart';
 import 'package:mobile_smart_dashboard/providers/auth_provider.dart';
+import 'package:mobile_smart_dashboard/providers/device_provider.dart';
 import 'package:mobile_smart_dashboard/routes/app_page.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   getInit();
+  //   super.initState();
+  // }
+
+  // getInit() async {
+  //   await Provider.of<DeviceProvider>(context, listen: false).getDevices();
+  // }
+
   final c = Get.find<UserC>();
 
   final List<String> items = [
@@ -289,11 +301,16 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Align(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        'See Detail',
-                        style: AppText.textSmall.copyWith(
-                            fontWeight: AppText.medium,
-                            color: AppColorPrimay.normal),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.penggunaanair);
+                        },
+                        child: Text(
+                          'See Detail',
+                          style: AppText.textSmall.copyWith(
+                              fontWeight: AppText.medium,
+                              color: AppColorPrimay.normal),
+                        ),
                       ),
                     ),
                     AspectRatio(
