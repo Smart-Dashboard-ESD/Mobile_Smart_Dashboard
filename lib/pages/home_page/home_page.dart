@@ -184,22 +184,27 @@ class _HomePageState extends State<HomePage> {
             ),
             Align(
               alignment: Alignment.bottomRight,
-              child: Container(
-                height: 32,
-                width: 116,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: AppColorPrimay.normal),
-                margin: const EdgeInsets.only(
-                  right: 15,
-                  bottom: 10,
-                ),
-                child: Center(
-                  child: Text(
-                    'Bayar Sekarang',
-                    style: AppText.textExtraSmall.copyWith(
-                        fontWeight: AppText.semiBold,
-                        color: AppColorPrimay.white),
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.pembayaran);
+                },
+                child: Container(
+                  height: 32,
+                  width: 116,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppColorPrimay.normal),
+                  margin: const EdgeInsets.only(
+                    right: 15,
+                    bottom: 10,
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Bayar Sekarang',
+                      style: AppText.textExtraSmall.copyWith(
+                          fontWeight: AppText.semiBold,
+                          color: AppColorPrimay.white),
+                    ),
                   ),
                 ),
               ),

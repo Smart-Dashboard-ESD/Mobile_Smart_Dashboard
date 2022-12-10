@@ -3,6 +3,7 @@ import 'package:mobile_smart_dashboard/models/pembayaran_model.dart';
 import 'package:mobile_smart_dashboard/shared/theme.dart';
 import 'package:mobile_smart_dashboard/widgets/pembayaran_card.dart';
 import 'package:mobile_smart_dashboard/widgets/transfer_pembayaran_card.dart';
+import 'package:get/get.dart';
 
 class PembayaranPage extends StatelessWidget {
   const PembayaranPage({super.key});
@@ -14,10 +15,15 @@ class PembayaranPage extends StatelessWidget {
         backgroundColor: AppColorPrimay.background,
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: const Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AppColorText.primary,
-          size: 18,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColorText.primary,
+            size: 18,
+          ),
         ),
         title: Text(
           'Pembayaran',
@@ -149,7 +155,8 @@ class PembayaranPage extends StatelessWidget {
       return Container(
         height: 51,
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+        margin: EdgeInsets.only(
+            left: defaultMargin, right: defaultMargin, bottom: defaultMargin),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: AppColorPrimay.normal),
