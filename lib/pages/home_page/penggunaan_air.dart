@@ -140,7 +140,7 @@ class PenggunaanAir extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Data Penggunaan Air Dialy',
+          'Data Penggunaan Air Daily',
           style: AppText.textLarge.copyWith(
               fontWeight: AppText.medium, color: AppColorText.primary),
         ),
